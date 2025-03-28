@@ -5,7 +5,16 @@ import { useUserDetail } from '@/app/context/UserDetailContext';
 import { Tabs, Text, Badge, ActionIcon, Menu, Skeleton } from '@mantine/core';
 import { Image, Video, MoreVertical, Trash2, Download, Clock, HardDrive } from 'lucide-react';
 
-const SecondaryToolbar = ({ activeTool }) => {
+const TabsList = {
+  tab: {
+    '&[data-active]': {
+      backgroundColor: 'var(--mantine-color-blue-filled)',
+      color: 'var(--mantine-color-white)'
+    }
+  }
+};
+
+const SecondaryToolbar = ({ activeTool, onMediaSelect }) => {
     const [assets, setAssets] = useState([]);
     const [filter, setFilter] = useState('all');
     const [loading, setLoading] = useState(true);
@@ -50,6 +59,11 @@ const SecondaryToolbar = ({ activeTool }) => {
         );
     };
 
+    const handleAssetSelect = (asset) => {
+        onMediaSelect?.(asset);
+        setSelectedAssets([]);  // Clear selection after adding
+    };
+
     if (!activeTool) return null;
 
     return (
@@ -79,9 +93,16 @@ const SecondaryToolbar = ({ activeTool }) => {
                             }}
                         >
                             <Tabs.List className="space-x-2 mb-4 bg-gray-50/50 p-1 rounded-lg">
-                                <Tabs.Tab value="all" className="rounded-md">All</Tabs.Tab>
+                                <Tabs.Tab 
+                                    value="all" 
+                                    classNames={TabsList}
+                                    className="rounded-md"
+                                >
+                                    All
+                                </Tabs.Tab>
                                 <Tabs.Tab 
                                     value="image" 
+                                    classNames={TabsList}
                                     leftSection={<Image size={16} />}
                                     className="rounded-md"
                                 >
@@ -109,7 +130,7 @@ const SecondaryToolbar = ({ activeTool }) => {
                                 filteredAssets.map((asset) => (
                                     <div 
                                         key={asset.id} 
-                                        onClick={() => toggleAssetSelection(asset.id)}
+                                        onClick={() => handleAssetSelect(asset)}
                                         className={`
                                             group relative bg-gray-50 rounded-lg overflow-hidden
                                             transition-all duration-200 cursor-pointer
