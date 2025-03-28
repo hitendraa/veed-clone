@@ -38,7 +38,7 @@ export default function EditorLayout({ children }) {
         };
 
         createNewVideo();
-    }, [userDetail, pathname]);
+    }, [userDetail, pathname, router]);
 
     return <>{children}</>;
 }
