@@ -20,8 +20,8 @@ export const MEDIA_ASSETS_TABLE = pgTable("media_assets", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   url: varchar().notNull(),
   name: varchar().notNull(),
-  type: varchar().notNull(), // image/video
+  type: varchar().notNull(), 
   createdBy: varchar().notNull().references(() => USER_TABLE.email),
   createdAt: timestamp().defaultNow(),
-  size: integer(), // in bytes
+  size: integer(), 
 });

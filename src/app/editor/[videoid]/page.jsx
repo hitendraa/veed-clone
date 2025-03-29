@@ -33,7 +33,7 @@ export default function EditorPage({ params }) {
     const minTimelineHeight = 192;
     const maxTimelineHeight = 480;
 
-    // Keep only the states we need
+    
     const [loadedVideos, setLoadedVideos] = useState(new Map());
     const [loadingVideos, setLoadingVideos] = useState(new Set());
 
@@ -52,14 +52,12 @@ export default function EditorPage({ params }) {
     const handleTimeUpdate = (time) => {
         setCurrentTime(time);
         
-        // Get all media elements that should be visible at current time
         const visibleMedia = mediaElements.filter(media => {
             const startTime = (media.position?.x || 0) / 100;
             const endTime = startTime + (media.type === 'video' ? (media.duration || 0) : 5);
             return time >= startTime && time < endTime;
         });
 
-        // Update each media element
         mediaElements.forEach(media => {
             const element = document.querySelector(`[data-media-id="${media.id}"]`);
             if (!element) return;
@@ -70,7 +68,6 @@ export default function EditorPage({ params }) {
 
             element.style.display = isVisible ? 'block' : 'none';
 
-            // Handle video specific updates
             if (media.type === 'video' && videoRefs.current[media.id]) {
                 const video = videoRefs.current[media.id];
                 if (isVisible) {
@@ -83,11 +80,9 @@ export default function EditorPage({ params }) {
         });
     };
 
-    // Improve media select handler to handle loading and positioning
     const handleMediaSelect = async (asset) => {
         const newId = generateUniqueId();
         try {
-            // Find position after last media element in timeline
             const sortedMedia = [...mediaElements].sort((a, b) => {
                 const aEnd = (a.position?.x || 0) + ((a.type === 'video' ? a.duration : 5) * 100);
                 const bEnd = (b.position?.x || 0) + ((b.type === 'video' ? b.duration : 5) * 100);
@@ -108,13 +103,13 @@ export default function EditorPage({ params }) {
                 id: newId,
                 layerId: 'layer-1',
                 position: { 
-                    x: newX, // For timeline position
+                    x: newX, 
                     y: 0 
                 },
-                canvasPosition: null, // Will be set by MediaElement's default position
+                canvasPosition: null, 
                 ...asset,
                 localUrl,
-                duration: asset.type === 'video' ? 0 : 5 // Will be updated when video loads
+                duration: asset.type === 'video' ? 0 : 5 
             };
 
             setMediaElements(prev => [...prev, newMedia]);
@@ -125,7 +120,7 @@ export default function EditorPage({ params }) {
         }
     };
 
-    // Clean up buffered videos
+    
     useEffect(() => {
         return () => {
             loadedVideos.forEach(url => URL.revokeObjectURL(url));
@@ -136,7 +131,7 @@ export default function EditorPage({ params }) {
         if (updates?.action === 'delete') {
             setMediaElements(prev => prev.filter(elem => elem.id !== id));
         } else {
-            // Handle other updates
+            
             setMediaElements(prev => prev.map(elem => 
                 elem.id === id ? { ...elem, ...updates } : elem
             ));
@@ -177,7 +172,7 @@ export default function EditorPage({ params }) {
                         mediaElements={mediaElements} 
                         onMediaUpdate={handleMediaUpdate}
                         currentTime={currentTime}
-                        setCurrentTime={setCurrentTime}  // Add this prop
+                        setCurrentTime={setCurrentTime}  
                         isPlaying={isPlaying}
                         onTimeUpdate={handleTimeUpdate}
                         onPlayingChange={setIsPlaying}

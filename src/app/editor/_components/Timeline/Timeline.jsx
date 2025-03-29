@@ -2,9 +2,9 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { Play, Pause, Minus, Plus, PlusCircle } from 'lucide-react';
 import TimelineTrack from './TimelineTrack';
 
-const MIN_ZOOM = 50; // pixels per second
+const MIN_ZOOM = 50; 
 const MAX_ZOOM = 200;
-const MAJOR_MARKS_INTERVAL = 5; // seconds
+const MAJOR_MARKS_INTERVAL = 5; 
 
 export default function Timeline({ 
     mediaElements, 
@@ -50,7 +50,7 @@ export default function Timeline({
     };
 
     const togglePlayback = () => {
-        if (loadingVideos.size > 0) return; // Prevent playback while loading
+        if (loadingVideos.size > 0) return; 
         onPlayingChange(!isPlaying);
     };
 
@@ -141,7 +141,7 @@ export default function Timeline({
     };
 
     useEffect(() => {
-        // Verify unique IDs for debugging
+        
         const ids = mediaElements.map(m => m.id);
         const uniqueIds = new Set(ids);
         if (ids.length !== uniqueIds.size) {
@@ -246,7 +246,7 @@ export default function Timeline({
                     <div style={{ width: totalWidth, minHeight: '100%' }}>
                         {layers.map((layer) => (
                             <div 
-                                key={layer.id}  // Added key here 
+                                key={layer.id}  
                                 className="h-14 border-b border-gray-200 relative"
                                 data-layer-id={layer.id}
                             >

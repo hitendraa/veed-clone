@@ -12,15 +12,14 @@ export default function TimelineTrack({
     allLayers,
     ...props 
 }) {
-    const duration = media.type === 'video' ? (media.duration || 10) : 5; // Default 5s for images
+    const duration = media.type === 'video' ? (media.duration || 10) : 5; 
     const width = duration * pixelsPerSecond;
 
     const findNearestSnap = (currentX) => {
-        const SNAP_THRESHOLD = 20; // pixels
+        const SNAP_THRESHOLD = 20;
         let nearestSnap = null;
         let minDistance = SNAP_THRESHOLD;
 
-        // Find tracks in the same layer
         const layerTracks = allTracksInLayer.filter(t => t.id !== media.id);
         
         layerTracks.forEach(track => {
@@ -37,7 +36,7 @@ export default function TimelineTrack({
     };
 
     const handleResize = (e, direction, ref, delta, position) => {
-        const newDuration = Math.max(ref.offsetWidth / pixelsPerSecond, 1); // Minimum 1 second
+        const newDuration = Math.max(ref.offsetWidth / pixelsPerSecond, 1); 
         onTrackMove(media.id, {
             duration: newDuration,
             position: {
@@ -59,11 +58,11 @@ export default function TimelineTrack({
                 x: media.position?.x || 0,
                 y: 0,
                 width: width,
-                height: 44 // Fixed height for tracks
+                height: 44 
             }}
             enableResizing={{ 
-                right: true,  // Only allow right resizing for images
-                left: media.type === 'video' // Both sides for videos
+                right: true,  
+                left: media.type === 'video' 
             }}
             dragAxis="x"
             bounds="parent"

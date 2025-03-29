@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react';
 
 const EditorSidebar = ({ onToolSelect }) => {
-  const [activeTool, setActiveTool] = useState('media'); // Set default to media
+  const [activeTool, setActiveTool] = useState('media'); 
 
   useEffect(() => {
-    onToolSelect?.('media'); // Trigger initial selection
+    onToolSelect?.('media'); 
   }, []);
 
   const handleToolClick = (tool) => {
@@ -47,7 +47,7 @@ const EditorSidebar = ({ onToolSelect }) => {
         ))}
       </div>
 
-      {/* Help icon at bottom */}
+      
       <div className="mt-auto">
         <img
           src="/svg/help.svg"

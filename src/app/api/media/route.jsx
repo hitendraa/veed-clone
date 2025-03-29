@@ -28,7 +28,7 @@ export async function POST(req) {
                 }, { status: 500 });
             }
 
-            // Upload to blob storage
+            
             const blob = await put(file.name, file, {
                 access: 'public',
                 token: process.env.BLOB_READ_WRITE_TOKEN
@@ -38,7 +38,7 @@ export async function POST(req) {
             });
             console.log("File uploaded to blob storage:", blob.url);
 
-            // Save to database
+            
             const result = await db.insert(MEDIA_ASSETS_TABLE).values({
                 url: blob.url,
                 name: file.name,

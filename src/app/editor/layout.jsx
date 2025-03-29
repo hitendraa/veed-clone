@@ -12,8 +12,6 @@ export default function EditorLayout({ children }) {
     useEffect(() => {
         const createNewVideo = async () => {
             if (!userDetail) return;
-            
-            // Only create new video if we're on the root editor page
             if (pathname !== '/editor') return;
             
             const videoId = uuidv4();

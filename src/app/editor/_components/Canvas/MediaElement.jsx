@@ -13,7 +13,7 @@ const MediaElement = ({
   currentTime,
   isPlaying,
   isVisible,
-  ...props // Spread remaining props to avoid DOM warnings
+  ...props 
 }) => {
   const ref = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,10 +79,8 @@ const MediaElement = ({
     const video = ref.current;
     if (!video || element.type !== 'video') return;
 
-    // Add media ID to video element for reference
     video.dataset.mediaId = element.id;
 
-    // Remove visibility toggling - let the video always be visible in canvas
     if (video.readyState >= 2) {
       try {
         video.currentTime = currentTime - ((element.position?.x || 0) / 100);
@@ -105,7 +103,6 @@ const MediaElement = ({
     const elem = ref.current;
     if (!elem) return;
 
-    // Handle visibility based on timeline position and layer order
     if (!isVisible || currentTime < startTime || currentTime >= endTime) {
         elem.style.display = 'none';
         if (element.type === 'video') {
@@ -122,11 +119,10 @@ const MediaElement = ({
 
   const handleSelect = (e) => {
     e.stopPropagation();
-    if (!isVisible) return; // Prevent selection of invisible elements
+    if (!isVisible) return;
     onSelect(element.id);
   };
 
-  // Remove extra visibility effect
   if (!isVisible && element.type === 'video') return null;
 
   return (
@@ -185,7 +181,7 @@ const MediaElement = ({
       }}
       style={{ 
         transform: `rotate(${element.rotation || 0}deg)`,
-        zIndex: parseInt(element.layerId.split('-')[1]) // Layer based z-index
+        zIndex: parseInt(element.layerId.split('-')[1])
       }}
       {...props}
     >
@@ -207,14 +203,14 @@ const MediaElement = ({
                 controls={false}
                 draggable={false}
                 playsInline
-                muted // Add muted to ensure playback works
+                muted
                 preload="auto"
                 onLoadedMetadata={(e) => {
                   if (!element.duration) {
                     onUpdate(element.id, { 
                       duration: e.target.duration,
                       isLoading: false,
-                      size: {  // Add initial size
+                      size: {
                         width: canvasDimensions.width / 2,
                         height: canvasDimensions.height / 2
                       }
@@ -285,7 +281,6 @@ const styles = `
   }
 `;
 
-// Add style tag to document
 if (typeof document !== 'undefined') {
   const styleSheet = document.createElement("style");
   styleSheet.innerText = styles;
